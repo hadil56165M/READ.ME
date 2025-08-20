@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇹🇳 Tunisia Constitution Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(#e70013 1px, transparent 1px), radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 2px solid #e70013;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #e70013 0%, #ffffff 30%, #ffffff 70%, #e70013 100%);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="50" r="40" stroke="%23e70013" stroke-width="2" fill="none" /><circle cx="50" cy="50" r="30" stroke="%23e70013" stroke-width="1" fill="none" /></svg>');
+            opacity: 0.1;
+        }
+        
+        .header h1 {
+            color: #e70013;
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'Playfair Display', serif;
+            position: relative;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 600;
+        }
+        
+        .flag {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 300px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-right: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+        }
+        
+        .main-content {
+            flex: 2;
+            min-width: 500px;
+        }
+        
+        .search-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            border: 2px solid #e70013;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><path d="M25,25 L75,75 M75,25 L25,75" stroke="%23e70013" stroke-width="4" stroke-linecap="round" /></svg>');
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #e70013;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(231, 0, 19, 0.2);
+            background: white;
+        }
+        
+        button {
+            background: linear-gradient(to right, #e70013, #ff5252);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 18px 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(231, 0, 19, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 0, 19, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .result-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #e70013;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #e70013;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #fff8e6 0%, #ffe8cc 100%);
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #e70013;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 1rem;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-top: 1px solid #ddd;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            color: #e70013;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            font-family: 'Playfair Display', serif;
+            position: relative;
+        }
+        
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: #e70013;
+        }
+        
+        h3 {
+            margin: 25px 0 15px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .guide {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+        }
+        
+        .guide ul,
+        .guide ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .guide li {
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        .guide li::before {
+            content: "•";
+            color: #e70013;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .example-tag {
+            background: linear-gradient(to right, #e70013, #ff5252);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(231, 0, 19, 0.3);
+        }
+        
+        .example-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 0, 19, 0.4);
+        }
+        
+        .full-text {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+        }
+        
+        pre {
+            white-space: pre-wrap;
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .info {
+            color: #17a2b8;
+            font-weight: bold;
+        }
+        
+        .download-btn {
+            background: linear-gradient(to right, #28a745, #20c997);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            margin-top: 15px;
+        }
+        
+        .download-btn:hover {
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+        }
+        
+        .search-btn {
+            background: linear-gradient(to right, #17a2b8, #6f42c1);
+            box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+        }
+        
+        .search-btn:hover {
+            box-shadow: 0 8px 20px rgba(23, 162, 184, 0.4);
+        }
+        
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+            }
+            .sidebar {
+                margin-right: 0;
+            }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #28a745;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flag">🇹🇳</div>
+            <h1>Tunisia Constitution Explorer</h1>
+            <p>Search through the Constitution of Tunisia</p>
+        </div>
+
+        <div class="content">
+            <div class="sidebar">
+                <div class="guide">
+                    <h2><i class="fas fa-info-circle"></i> Guide</h2>
+                    <p><strong>How to use:</strong></p>
+                    <ol>
+                        <li>Type your question or keywords in the search box</li>
+                        <li>Click the search button</li>
+                        <li>View relevant constitution sections</li>
+                    </ol>
+
+                    <p><strong>Try these example searches:</strong></p>
+                    <div class="examples">
+                        <div class="example-tag" onclick="setSearch('president')">president</div>
+                        <div class="example-tag" onclick="setSearch('rights')">rights</div>
+                        <div class="example-tag" onclick="setSearch('freedom')">freedom</div>
+                        <div class="example-tag" onclick="setSearch('judicial')">judicial</div>
+                        <div class="example-tag" onclick="setSearch('education')">education</div>
+                        <div class="example-tag" onclick="setSearch('elections')">elections</div>
+                    </div>
+                </div>
+
+                <div class="guide">
+                    <h2><i class="fas fa-book"></i> About the Constitution</h2>
+                    <p>The Constitution of Tunisia was adopted in 2014 after the Tunisian Revolution. It establishes Tunisia as a civil state with a republican system.</p>
+                </div>
+
+                <!-- Download section removed -->
+            </div>
+
+            <div class="main-content">
+                <div class="search-container">
+                    <h2><i class="fas fa-search"></i> Search the Constitution</h2>
+                    <input type="text" id="searchInput" placeholder="e.g., What are the president's powers?">
+                    <button class="search-btn" onclick="searchConstitution()"><i class="fas fa-rocket"></i> Search Constitution</button>
+                </div>
+
+                <div id="resultsContainer"></div>
+
+                <button onclick="toggleFullText()"><i class="fas fa-file-alt"></i> View Full Constitution Text</button>
+
+                <div id="fullText" class="full-text">
+                    <h2>Full Text of Tunisia Constitution</h2>
+                    <pre id="constitutionText"></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🇹🇳 Made for Tunisia • Constitution Search Tool • 2023</p>
+            <p>This tool provides easy access to the Constitution of Tunisia for educational purposes.</p>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i> Download started successfully!
+    </div>
+
+    <script>
+        // Constitution data
+        const constitutionText = `
+CONSTITUTION OF THE TUNISIAN REPUBLIC
+
+PREAMBLE
+In the Name of God, the Merciful, the Compassionate
+
+We, the representatives of the Tunisian people, members of the National Constituent Assembly...
+
+TITLE ONE: GENERAL PRINCIPLES
+Article 1
+Tunisia is a free, independent, sovereign state; its religion is Islam, its language is Arabic, and its system is republican.
+
+Article 2
+Tunisia is a civil state based on citizenship, the will of the people, and the supremacy of law.
+
+Article 3
+The people are sovereign and the source of authority, which is exercised through the people's representatives and by referendum.
+
+Article 4
+The flag of the Tunisian Republic is red and bears in its midst a white circle in which is inscribed a five-pointed star surrounded by a red crescent.
+
+Article 5
+The Republic of Tunisia is part of the Arab Maghreb and works towards achieving its unity.
+
+TITLE TWO: RIGHTS AND FREEDOMS
+Article 6
+The state protects religion, guarantees freedom of belief and religious practice.
+
+Article 7
+The family is the basic unit of society and the state shall protect it.
+
+Article 8
+Youth are active forces in building the nation.
+
+Article 9
+All citizens are equal in rights and duties before the law.
+
+Article 10
+Every citizen has the right to freely choose their representatives.
+
+Article 11
+No citizen can be deprived of their nationality, exiled, extradited or prevented from returning to their country.
+
+Article 12
+The state guarantees the individual's right to own property.
+
+Article 13
+Education shall be mandatory up to the age of sixteen.
+
+Article 14
+The state guarantees the right to healthcare.
+
+Article 15
+The state guarantees the right to litigation.
+
+TITLE THREE: LEGISLATIVE POWER
+Article 16
+The people exercise legislative power through their representatives in the Assembly of the Representatives of the People or through referendum.
+
+Article 17
+The Assembly of the Representatives of the People is composed of representatives elected by universal, free, direct, secret, fair and transparent suffrage.
+
+Article 18
+The Assembly of the Representatives of the People shall hold an annual ordinary session.
+
+TITLE FOUR: EXECUTIVE POWER
+Article 19
+The President of the Republic is the Head of State and symbol of its unity.
+
+Article 20
+The President of the Republic is elected for a five-year term during the last sixty days of the presidential term.
+
+Article 21
+The President of the Republic promulgates laws and ensures their implementation.
+
+Article 22
+The President of the Republic may dissolve the Assembly of the Representatives of the People.
+
+Article 23
+The Government is composed of a Head of Government, Ministers, and Secretaries of State selected by the Head of Government.
+
+Article 24
+The Head of Government determines the state's general policy.
+
+TITLE FIVE: JUDICIAL POWER
+Article 25
+The judicial power is independent and ensures the administration of justice.
+
+Article 26
+Judges are independent and subject only to the law.
+
+Article 27
+The right to litigation and the right of defense are guaranteed.
+
+Article 28
+Punishments are personal and may not be imposed except by virtue of a law.
+
+Article 29
+No one may be arrested or detained except in cases specified by law.
+
+Article 30
+Every prisoner has the right to be treated with dignity.
+
+Article 31
+The freedom of opinion, thought, expression, information and publication are guaranteed.
+
+Article 32
+The state guarantees the right to information and the right of access to information.
+
+Article 33
+Academic freedom and freedom of scientific research are guaranteed.
+
+Article 34
+The rights to election, voting and candidacy are guaranteed.
+
+Article 35
+The right to establish political parties, unions and associations is guaranteed.
+
+Article 36
+The right to assembly and peaceful demonstration is guaranteed.
+
+Article 37
+The right to strike is guaranteed.
+
+Article 38
+Health care is a right for every human being.
+
+Article 39
+Work is a right for every citizen, male and female.
+
+Article 40
+The state guarantees the right to social security.
+`;
+
+        // Display full text
+        document.getElementById('constitutionText').textContent = constitutionText;
+
+        function setSearch(term) {
+            document.getElementById('searchInput').value = term;
+            searchConstitution();
+        }
+
+        function searchConstitution() {
+            const question = document.getElementById('searchInput').value.trim();
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            if (!question) {
+                resultsContainer.innerHTML = '<div class="result-card">⚠️ Please enter a question or keywords</div>';
+                return;
+            }
+
+            // Simple search implementation
+            const lines = constitutionText.split('\n');
+            const results = [];
+
+            for (const line of lines) {
+                if (line.toLowerCase().includes(question.toLowerCase())) {
+                    // Highlight the search term
+                    const highlightedLine = line.replace(
+                        new RegExp(question, 'gi'),
+                        match => `<span class="highlight">${match}</span>`
+                    );
+                    results.push(highlightedLine);
+                }
+            }
+
+            // Display results
+            if (results.length > 0) {
+                let resultsHTML = `<div class="result-card fade-in"><span class="success">📊 Found ${results.length} results for: '${question}'</span></div>`;
+
+                results.forEach((result, index) => {
+                    resultsHTML += `
+                        <div class="result-card fade-in">
+                            <b>Result ${index + 1}:</b><br>
+                            ${result}
+                        </div>
+                    `;
+                });
+
+                resultsContainer.innerHTML = resultsHTML;
+            } else {
+                resultsContainer.innerHTML = `
+                    <div class="result-card fade-in">
+                        <span class="warning">🤔 No results found for: '${question}'</span>
+                    </div>
+                    <div class="result-card fade-in">
+                        <span class="info">💡 Try simpler keywords or different terms. Examples: president, rights, freedom, judicial</span>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleFullText() {
+            const fullTextElement = document.getElementById('fullText');
+            if (fullTextElement.style.display === 'none') {
+                fullTextElement.style.display = 'block';
+            } else {
+                fullTextElement.style.display = 'none';
+            }
+        }
+
+        // Allow pressing Enter to search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchConstitution();
+            }
+        });
+
+        // Initial search with a default term
+        window.onload = function() {
+            setSearch('rights');
+        };
+    </script>
+</body>
+
+</html>
