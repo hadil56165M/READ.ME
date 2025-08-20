@@ -1,3 +1,7 @@
 streamlit
 requests
 PyPDF2
+langchain
+faiss-cpu
+sentence-transformers
+ollama
